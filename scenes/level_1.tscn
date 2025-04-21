@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://cx5j2bgr6scav"]
+
+[ext_resource type="Texture2D" uid="uid://gs6n3sg4t772" path="res://assets/godot-prototype-texture/PNG/checker_black_512x512.png" id="1_014kd"]
+[ext_resource type="PackedScene" uid="uid://bxysbdheic8vd" path="res://scenes/player.tscn" id="2_bswci"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bswci"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_rus8k"]
+sky_material = SubResource("ProceduralSkyMaterial_bswci")
+
+[sub_resource type="Environment" id="Environment_5xbjy"]
+background_mode = 2
+sky = SubResource("Sky_rus8k")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_bswci"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rus8k"]
+albedo_texture = ExtResource("1_014kd")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5xbjy"]
+size = Vector2(100, 100)
+
+[node name="level1" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5xbjy")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_bswci")
+debug_fill = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+material_override = SubResource("StandardMaterial3D_rus8k")
+mesh = SubResource("PlaneMesh_5xbjy")
+
+[node name="Player" parent="." instance=ExtResource("2_bswci")]
