@@ -1,10 +1,10 @@
 extends CharacterBody3D
 @onready var camera_mount: Node3D = $CameraMount
-@onready var animation_player: AnimationPlayer = $Visuals/mixamo_base/AnimationPlayer
+@onready var animation_player: AnimationPlayer = $"Visuals/Y Bot/AnimationPlayer"
 @onready var visuals: Node3D = $Visuals
 
 @export var WALK_SPEED = 2
-@export var RUN_SPEED = 3.5
+@export var RUN_SPEED = 4
 var speed = 0
 
 const JUMP_VELOCITY = 4.5
@@ -48,8 +48,8 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 	else:
-		if animation_player.current_animation != "idle":
-			animation_player.play("idle")
+		if animation_player.current_animation != "idle_2":
+			animation_player.play("idle_2")
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 
