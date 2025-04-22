@@ -10,6 +10,8 @@ var speed = 0
 const JUMP_VELOCITY = 4.5
 const MOUSE_SENSITIVITY = 0.1
 
+var anim_locked = false
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -21,6 +23,9 @@ func _input(event: InputEvent) -> void:
 		camera_mount.rotation.x = clamp(camera_mount.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func _physics_process(delta: float) -> void:
+	if is_on_floor():
+		anim_locked = false
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -28,6 +33,8 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		animation_player.play("XBot_anims/run_jump")
+		anim_locked = true
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -35,12 +42,12 @@ func _physics_process(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		if Input.is_action_pressed("sprint"):
-			if animation_player.current_animation != "running":
-				animation_player.play("running")
+			if animation_player.current_animation != "XBot_anims/running" and not anim_locked:
+				animation_player.play("XBot_anims/running")
 				speed = RUN_SPEED
 		else:
-			if animation_player.current_animation != "walking":
-				animation_player.play("walking")
+			if animation_player.current_animation != "XBot_anims/walking" and not anim_locked:
+				animation_player.play("XBot_anims/walking")
 				speed = WALK_SPEED
 		var target = visuals.global_basis.looking_at(direction)
 		visuals.global_basis = visuals.global_basis.slerp(target, delta * 10)
@@ -48,8 +55,8 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 	else:
-		if animation_player.current_animation != "idle":
-			animation_player.play("idle")
+		if animation_player.current_animation != "XBot_anims/idle" and not anim_locked:
+			animation_player.play("XBot_anims/idle")
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 
