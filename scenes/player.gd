@@ -2,6 +2,7 @@ extends CharacterBody3D
 @onready var camera_mount: Node3D = $CameraMount
 @onready var animation_player: AnimationPlayer = $Visuals/mixamo_base/AnimationPlayer
 @onready var visuals: Node3D = $Visuals
+@onready var camera_3d: Camera3D = $CameraMount/SpringArm3D/Camera3D
 
 @export var WALK_SPEED = 2
 @export var RUN_SPEED = 3.5
@@ -43,21 +44,32 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		if Input.is_action_pressed("sprint"):
 			if animation_player.current_animation != "XBot_anims/running" and not anim_locked:
+				sprint_cam_tween()
 				animation_player.play("XBot_anims/running")
 				speed = RUN_SPEED
 		else:
 			if animation_player.current_animation != "XBot_anims/walking" and not anim_locked:
 				animation_player.play("XBot_anims/walking")
 				speed = WALK_SPEED
-		var target = visuals.global_basis.looking_at(direction)
-		visuals.global_basis = visuals.global_basis.slerp(target, delta * 10)
+				reset_cam_tween()
+		var target = visuals.global_basis.looking_at(direction).orthonormalized()
+		visuals.global_basis = visuals.global_basis.orthonormalized().slerp(target, delta * 10)
 		#visuals.look_at(position + direction)
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 	else:
 		if animation_player.current_animation != "XBot_anims/idle" and not anim_locked:
 			animation_player.play("XBot_anims/idle")
+			reset_cam_tween()
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
+
+func reset_cam_tween():
+	var tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(camera_3d, "fov", 70, 0.5)
+
+func sprint_cam_tween():
+	var tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(camera_3d, "fov", 80, 0.5)
