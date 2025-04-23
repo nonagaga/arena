@@ -8,6 +8,8 @@ extends CharacterBody3D
 @export var RUN_SPEED = 3.5
 var speed = 0
 
+@export var SHOOT_RANGE = 1000
+
 const JUMP_VELOCITY = 4.5
 const MOUSE_SENSITIVITY = 0.1
 
@@ -17,15 +19,34 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-deg_to_rad(event.relative.x) * MOUSE_SENSITIVITY)
 		visuals.rotate_y(deg_to_rad(event.relative.x) * MOUSE_SENSITIVITY)
 		camera_mount.rotate_x(deg_to_rad(-event.relative.y) * MOUSE_SENSITIVITY)
 		camera_mount.rotation.x = clamp(camera_mount.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE else Input.MOUSE_MODE_VISIBLE
 
 func _physics_process(delta: float) -> void:
-	#if is_on_floor():
-		#anim_locked = false
+	if Input.is_action_just_pressed("shoot"):
+		var space_state = get_world_3d().direct_space_state
+		var mousepos = get_viewport().size/2
+
+		var origin = camera_3d.project_ray_origin(mousepos)
+		var end = origin + camera_3d.project_ray_normal(mousepos) * SHOOT_RANGE
+		var query = PhysicsRayQueryParameters3D.create(origin, end)
+		query.collide_with_areas = true
+
+		var result = space_state.intersect_ray(query)
+		if result:
+			var collider = result.get("collider")
+			if collider:
+				if collider.has_method("damage"):
+					collider.damage()
+	
+	if is_on_floor():
+		anim_locked = false
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -38,22 +59,21 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		if direction:
-			velocity.y = JUMP_VELOCITY
-			animation_player.play("XBot_anims/run_jump")
-			anim_locked = true
-		else:
-			anim_locked = true
-			animation_player.play("XBot_anims/jump_still")
+		velocity.y = JUMP_VELOCITY
+		animation_player.play("XBot_anims/run_jump")
+		anim_locked = true
+	
+	if not is_on_floor() and velocity.y < -2:
+		animation_player.play("XBot_anims/fall")
 	
 	if direction:
 		if Input.is_action_pressed("sprint"):
-			if animation_player.current_animation != "XBot_anims/running" and not anim_locked:
+			if animation_player.current_animation != "XBot_anims/running" and not anim_locked and is_on_floor():
 				sprint_cam_tween()
 				animation_player.play("XBot_anims/running")
 				speed = RUN_SPEED
 		else:
-			if animation_player.current_animation != "XBot_anims/walking" and not anim_locked:
+			if animation_player.current_animation != "XBot_anims/walking" and not anim_locked and is_on_floor():
 				animation_player.play("XBot_anims/walking")
 				speed = WALK_SPEED
 				reset_cam_tween()
@@ -63,7 +83,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 	else:
-		if animation_player.current_animation != "XBot_anims/idle" and not anim_locked:
+		if animation_player.current_animation != "XBot_anims/idle" and not anim_locked and is_on_floor():
 			animation_player.play("XBot_anims/idle")
 			reset_cam_tween()
 		velocity.x = move_toward(velocity.x, 0, speed)

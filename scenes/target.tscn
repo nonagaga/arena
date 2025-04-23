@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=4 uid="uid://bxysbdheic8vd"]
+[gd_scene load_steps=11 format=4 uid="uid://budim8n3mshod"]
 
-[ext_resource type="Script" uid="uid://bu7x0pejbdts8" path="res://scenes/player.gd" id="1_3vyb7"]
-[ext_resource type="AnimationLibrary" uid="uid://deakahykjmf24" path="res://assets/anims/XBot_anims.res" id="2_g2els"]
+[ext_resource type="Script" uid="uid://bvxm3wcnhaaqm" path="res://scenes/target.gd" id="1_b5a2r"]
+[ext_resource type="AnimationLibrary" uid="uid://deakahykjmf24" path="res://assets/anims/XBot_anims.res" id="2_nlbrr"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.326919
@@ -233,6 +233,9 @@ bind/64/name = &"mixamorig_LeftToe_End"
 bind/64/bone = -1
 bind/64/pose = Transform3D(-99.9718, 2.3737, 0.000142677, -3.08364e-05, -0.00731543, 100, 2.37369, 99.9719, 0.00730814, 8.20544, -17.246, -0.196223)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b37e2"]
+albedo_color = Color(0, 0.403922, 0.403922, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8vx2v"]
 resource_name = "Beta_HighLimbsGeoSG3"
 cull_mode = 2
@@ -259,8 +262,11 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[node name="Player" type="CharacterBody3D"]
-script = ExtResource("1_3vyb7")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b5a2r"]
+albedo_color = Color(0, 0.442771, 0.450616, 1)
+
+[node name="Target" type="CharacterBody3D"]
+script = ExtResource("1_b5a2r")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.901694, 0)
@@ -734,16 +740,19 @@ bones/64/scale = Vector3(1, 1, 1)
 [node name="Beta_Joints" type="MeshInstance3D" parent="Visuals/mixamo_base/Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_g3pa8")
 skin = SubResource("Skin_lnvyn")
+surface_material_override/0 = SubResource("StandardMaterial3D_b37e2")
 
 [node name="Beta_Surface" type="MeshInstance3D" parent="Visuals/mixamo_base/Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_r18u7")
 skin = SubResource("Skin_lnvyn")
+surface_material_override/0 = SubResource("StandardMaterial3D_b5a2r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals/mixamo_base"]
 libraries = {
-&"XBot_anims": ExtResource("2_g2els")
+&"XBot_anims": ExtResource("2_nlbrr")
 }
 playback_default_blend_time = 0.2
+next/XBot_anims/idle = &""
 
 [node name="CameraMount" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
