@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://cx5j2bgr6scav"]
+[gd_scene load_steps=14 format=3 uid="uid://cx5j2bgr6scav"]
 
 [ext_resource type="Texture2D" uid="uid://gs6n3sg4t772" path="res://assets/godot-prototype-texture/PNG/checker_black_512x512.png" id="1_014kd"]
 [ext_resource type="PackedScene" uid="uid://bxysbdheic8vd" path="res://scenes/player.tscn" id="2_bswci"]
 [ext_resource type="Texture2D" uid="uid://cd6i4dnd6q8i7" path="res://assets/godot-prototype-texture/PNG/checker_orange_512x512.png" id="3_rus8k"]
 [ext_resource type="PackedScene" uid="uid://budim8n3mshod" path="res://scenes/target.tscn" id="4_5xbjy"]
+[ext_resource type="Script" uid="uid://bgs77nisb8fed" path="res://scenes/player_spawner.gd" id="5_4nkto"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bswci"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -122,3 +123,10 @@ offset_right = 20.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="player_spawn" type="Node3D" parent="."]
+script = ExtResource("5_4nkto")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://bxysbdheic8vd")
+spawn_path = NodePath("../player_spawn")

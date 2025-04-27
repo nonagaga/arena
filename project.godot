@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Arena"
-run/main_scene="uid://cx5j2bgr6scav"
+run/main_scene="uid://plshlilpnweu"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,7 +19,8 @@ config/icon="res://icon.svg"
 
 Noray="*res://addons/netfox.noray/noray.gd"
 PacketHandshake="*res://addons/netfox.noray/packet-handshake.gd"
-Network="*res://scripts/network.tscn"
+NorayNetwork="*res://scripts/noray_network.gd"
+Network="*res://scripts/network.gd"
 
 [display]
 
