@@ -761,14 +761,3 @@ libraries = {
 &"XBot_anims": ExtResource("2_nlbrr")
 }
 playback_default_blend_time = 0.2
-
-[node name="CameraMount" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraMount"]
-spring_length = 3.0
-margin = 0.1
-
-[node name="Camera3D" type="Camera3D" parent="CameraMount/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-fov = 70.0

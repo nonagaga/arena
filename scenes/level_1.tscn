@@ -54,8 +54,6 @@ debug_fill = false
 material_override = SubResource("StandardMaterial3D_rus8k")
 mesh = SubResource("PlaneMesh_5xbjy")
 
-[node name="Player" parent="." instance=ExtResource("2_bswci")]
-
 [node name="Buildings" type="Node3D" parent="."]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Buildings"]
@@ -126,6 +124,7 @@ grow_vertical = 2
 
 [node name="player_spawn" type="Node3D" parent="."]
 script = ExtResource("5_4nkto")
+multiplayer_player = ExtResource("2_bswci")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://bxysbdheic8vd")
