@@ -77,7 +77,7 @@ func _physics_process(delta: float) -> void:
 				animation_player.play("XBot_anims/walking")
 				speed = WALK_SPEED
 				reset_cam_tween()
-		var target = visuals.global_basis.looking_at(direction).orthonormalized()
+		var target = Basis.looking_at(direction).orthonormalized()
 		visuals.global_basis = visuals.global_basis.orthonormalized().slerp(target, delta * 10)
 		#visuals.look_at(position + direction)
 		velocity.x = direction.x * speed
