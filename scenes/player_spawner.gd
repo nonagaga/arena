@@ -8,12 +8,12 @@ func _ready() -> void:
 	
 	#spawn host
 	if multiplayer.is_server():
-		on_spawn_player(1)
+		on_spawn_player()
 	
-func on_spawn_player(id : int):
+func on_spawn_player(id : int = 1):
 	var spawned_player = multiplayer_player.instantiate()
 	spawned_player.name = str(id)
-	add_child(spawned_player)
+	call_deferred("add_child", spawned_player)
 
 func on_despawn_player(id : int):
 	for player in get_children():
