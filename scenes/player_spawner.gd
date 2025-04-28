@@ -8,7 +8,7 @@ func _ready() -> void:
 	
 func on_spawn_player(id : int):
 	var spawned_player = multiplayer_player.instantiate()
-	spawned_player.name = id
+	spawned_player.name = str(id)
 	add_child(spawned_player)
 
 func on_despawn_player(id : int):

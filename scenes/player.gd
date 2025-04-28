@@ -16,6 +16,9 @@ const MOUSE_SENSITIVITY = 0.1
 var anim_locked = false
 
 func _ready() -> void:
+	if get_multiplayer_authority() != multiplayer.get_unique_id():
+		process_mode = Node.PROCESS_MODE_DISABLED
+		
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _input(event: InputEvent) -> void:

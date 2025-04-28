@@ -4,8 +4,8 @@ signal spawn_player(id)
 signal despawn_player(id)
 
 func connect_signals():
-	multiplayer.multiplayer_peer.peer_connected.connect(on_peer_connected)
-	multiplayer.multiplayer_peer.peer_disconnected.connect(on_peer_disconnected)
+	multiplayer.peer_connected.connect(on_peer_connected)
+	multiplayer.peer_disconnected.connect(on_peer_disconnected)
 	
 func on_peer_connected(id : int):
 	if multiplayer.is_server():
