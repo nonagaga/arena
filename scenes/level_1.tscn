@@ -129,5 +129,3 @@ multiplayer_player = ExtResource("2_bswci")
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://bxysbdheic8vd")
 spawn_path = NodePath("../player_spawn")
-
-[node name="Player" parent="." instance=ExtResource("2_bswci")]

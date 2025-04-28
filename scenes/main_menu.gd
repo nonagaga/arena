@@ -19,4 +19,5 @@ func on_join_button_pressed():
 	var err = await NorayNetwork.connect_to_noray()
 	if err == OK:
 		err = await NorayNetwork.noray_start_client(oid.text)
+		await multiplayer.connected_to_server
 		get_tree().change_scene_to_packed(game_scene)
