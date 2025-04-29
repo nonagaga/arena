@@ -5,6 +5,9 @@ extends CharacterBody3D
 @onready var camera_3d: Camera3D = $CameraMount/SpringArm3D/Camera3D
 @onready var player_input: PlayerInput = $PlayerInput
 @onready var rollback_synchronizer: RollbackSynchronizer = $RollbackSynchronizer
+@onready var camera_input: CameraInput = $CameraInput
+
+
 @export var WALK_SPEED = 2
 @export var RUN_SPEED = 3.5
 var speed = 0
@@ -21,25 +24,18 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
   	# Set owner
-	set_multiplayer_authority(1)
 	player_input.set_multiplayer_authority(name.to_int())
+	camera_input.set_multiplayer_authority(name.to_int())
+	camera_mount.set_multiplayer_authority(name.to_int())
+	
 	rollback_synchronizer.process_settings()
 	
-	camera_3d.current = is_multiplayer_authority()
-	camera_mount.set_multiplayer_authority(name.to_int())
-	if not is_multiplayer_authority():
-		return
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
 
 func _input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
 		return
 		
-	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-deg_to_rad(event.relative.x) * MOUSE_SENSITIVITY)
-		visuals.rotate_y(deg_to_rad(event.relative.x) * MOUSE_SENSITIVITY)
-		camera_mount.rotate_x(deg_to_rad(-event.relative.y) * MOUSE_SENSITIVITY)
-		camera_mount.rotation.x = clamp(camera_mount.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE else Input.MOUSE_MODE_VISIBLE
@@ -109,8 +105,8 @@ func _rollback_tick(delta, tick, is_fresh):
 		velocity.z = move_toward(velocity.z, 0, speed)
 		
 	velocity *= NetworkTime.physics_factor
-	
 	move_and_slide()
+	velocity /= NetworkTime.physics_factor
 
 #func _physics_process(delta: float) -> void:
 	#if not is_multiplayer_authority():
