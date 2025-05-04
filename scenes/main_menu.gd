@@ -10,12 +10,14 @@ func _ready() -> void:
 	join_button.pressed.connect(on_join_button_pressed)
 	
 func on_host_button_pressed():
+	NorayNetwork.isHost = true
 	var err = await NorayNetwork.connect_to_noray()
 	if err == OK:
 		err = await NorayNetwork.noray_start_host()
 		get_tree().change_scene_to_packed(game_scene)
 	
 func on_join_button_pressed():
+	NorayNetwork.isHost = false
 	var err = await NorayNetwork.connect_to_noray()
 	if err == OK:
 		err = await NorayNetwork.noray_start_client(oid.text)

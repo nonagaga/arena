@@ -4,6 +4,7 @@ var host = "tomfol.io"
 var port = 8890
 #used for client
 var host_oid = ""
+var isHost : bool
 
 func setup_noray_host_signals():
 	Noray.on_connect_nat.connect(noray_host_handle_connect)
@@ -18,7 +19,7 @@ func connect_to_noray():
 	var err = await Noray.connect_to_host(host, port)
 	if err != OK:
 		return err # Failed to connect
-
+	
 	# Register host
 	Noray.register_host()
 	await Noray.on_pid
@@ -29,6 +30,8 @@ func connect_to_noray():
 		printerr("Failed to register to Noray")
 		return err # Failed to register
 	
+	if isHost:
+		host_oid = Noray.oid
 	return OK
 
 func noray_start_host():
