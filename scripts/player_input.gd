@@ -4,10 +4,9 @@ class_name PlayerInput
 var movement = Vector3.ZERO
 
 func _ready():
-	if is_multiplayer_authority():
-		NetworkTime.before_tick_loop.connect(_gather)
+	pass
 
-func _gather():
+func _physics_process(delta: float) -> void:
 
 	movement = Vector3(
 	Input.get_axis("move_left", "move_right"),
