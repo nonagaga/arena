@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 			var collider = result.get("collider")
 			if collider:
 				if collider.has_method("damage"):
-					collider.damage()
+					collider.damage.rpc()
 	
 	if is_on_floor():
 		anim_locked = false
