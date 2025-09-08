@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwp8cg16oh87x"]
+
+[ext_resource type="Script" uid="uid://dy8df4tico1dc" path="res://scenes/ball.gd" id="1_cxlvu"]
+[ext_resource type="Material" uid="uid://cb3176gy5budq" path="res://materials/orange_debug.tres" id="2_f7cbr"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fcfvj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_pa8r4"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cxlvu"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Ball" type="RigidBody3D"]
+mass = 0.2
+contact_monitor = true
+max_contacts_reported = 2
+angular_damp = 1.0
+script = ExtResource("1_cxlvu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_fcfvj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_pa8r4")
+surface_material_override/0 = ExtResource("2_f7cbr")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_cxlvu")

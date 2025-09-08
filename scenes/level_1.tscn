@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cx5j2bgr6scav"]
+[gd_scene load_steps=25 format=3 uid="uid://cx5j2bgr6scav"]
 
 [ext_resource type="Texture2D" uid="uid://gs6n3sg4t772" path="res://assets/godot-prototype-texture/PNG/checker_black_512x512.png" id="1_014kd"]
 [ext_resource type="PackedScene" uid="uid://bxysbdheic8vd" path="res://scenes/player.tscn" id="2_bswci"]
@@ -6,7 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://budim8n3mshod" path="res://scenes/target.tscn" id="4_5xbjy"]
 [ext_resource type="Script" uid="uid://87a4kg1g1fsl" path="res://scenes/oidgui.gd" id="4_fcfvj"]
 [ext_resource type="Script" uid="uid://bgs77nisb8fed" path="res://scenes/player_spawner.gd" id="5_4nkto"]
-[ext_resource type="Script" uid="uid://dy8df4tico1dc" path="res://scenes/ball.gd" id="7_pa8r4"]
+[ext_resource type="PackedScene" uid="uid://cwp8cg16oh87x" path="res://scenes/ball.tscn" id="7_pa8r4"]
+[ext_resource type="Script" uid="uid://ceqjua0id7uen" path="res://scenes/fly_enemy.gd" id="8_15mv3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bswci"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -36,9 +37,86 @@ data = PackedVector3Array(3.5, 0, -0.5, 3.5, 1, -0.5, 2.5, 1, -0.5, 2.5, 1, -0.5
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_pa8r4"]
 data = PackedVector3Array(40.5, 8, 41.5, 39.5, 8, 40.5, 40.5, 8, 40.5, -39.5, 8, 40.5, 40.5, 8, 41.5, -40.5, 8, 40.5, -40.5, 8, 40.5, 40.5, 8, 41.5, -40.5, 8, 41.5, -40.5, 8, 41.5, 40.5, 8, 41.5, -40.5, 0, 41.5, -40.5, 8, 40.5, -40.5, 8, 41.5, -40.5, 0, 41.5, -40.5, 0, 41.5, 40.5, 0, 40.5, 39.5, 0, 40.5, -40.5, 0, 41.5, 40.5, 0, 41.5, 40.5, 0, 40.5, 40.5, 8, 41.5, 40.5, 0, 41.5, -40.5, 0, 41.5, 40.5, 0, 41.5, 40.5, 8, 41.5, 40.5, 0, 40.5, -39.5, 0, 40.5, 39.5, 0, 40.5, -39.5, 8, 40.5, 39.5, 0, 40.5, -39.5, 0, 40.5, -40.5, 0, 41.5, -40.5, 0, 41.5, -40.5, 0, 40.5, -40.5, 8, 40.5, -40.5, 0, 41.5, -39.5, 0, 40.5, -40.5, 0, 40.5, 39.5, 0, 40.5, 39.5, 8, 40.5, -39.5, 8, 40.5, -39.5, 8, 40.5, 39.5, 8, 40.5, 40.5, 8, 41.5, 40.5, 8, 41.5, 40.5, 8, 40.5, 40.5, 0, 40.5, 40.5, 0, -41.5, 40.5, 8, -41.5, -40.5, 8, -41.5, -40.5, 8, -41.5, 40.5, 8, -40.5, 39.5, 8, -40.5, 40.5, 8, -41.5, 40.5, 8, -40.5, -40.5, 8, -41.5, 40.5, 8, -40.5, 40.5, 8, -41.5, 40.5, 0, -41.5, 40.5, 0, -40.5, 40.5, 8, -40.5, 40.5, 0, -41.5, 40.5, 0, -41.5, 39.5, 0, -40.5, 40.5, 0, -40.5, 39.5, 0, -40.5, -39.5, 0, -40.5, 39.5, 8, -40.5, -39.5, 0, -40.5, 39.5, 0, -40.5, 40.5, 0, -41.5, -40.5, 8, -41.5, -40.5, 8, -40.5, -40.5, 0, -40.5, -40.5, 0, -40.5, -40.5, 0, -41.5, -40.5, 8, -41.5, -40.5, 0, -40.5, 40.5, 0, -41.5, -40.5, 0, -41.5, -40.5, 0, -40.5, -39.5, 0, -40.5, 40.5, 0, -41.5, 40.5, 0, -41.5, -40.5, 8, -41.5, -40.5, 0, -41.5, -40.5, 8, -41.5, -39.5, 8, -40.5, -40.5, 8, -40.5, -39.5, 0, -40.5, -39.5, 8, -40.5, 39.5, 8, -40.5, 39.5, 8, -40.5, -39.5, 8, -40.5, -40.5, 8, -41.5, -39.5, 8, -40.5, -39.5, 8, 40.5, -40.5, 8, 40.5, -39.5, 0, -40.5, -39.5, 0, 40.5, -39.5, 8, -40.5, -39.5, 0, 40.5, -39.5, 8, 40.5, -39.5, 8, -40.5, -40.5, 0, 40.5, -39.5, 0, 40.5, -40.5, 0, -40.5, -40.5, 8, 40.5, -40.5, 0, 40.5, -40.5, 0, -40.5, -39.5, 0, 40.5, -39.5, 0, -40.5, -40.5, 0, -40.5, -40.5, 0, -40.5, -40.5, 8, -40.5, -40.5, 8, 40.5, -40.5, 8, -40.5, -39.5, 8, -40.5, -40.5, 8, 40.5, 39.5, 8, 40.5, 39.5, 0, 40.5, 39.5, 0, -40.5, 39.5, 8, -40.5, 39.5, 8, 40.5, 39.5, 0, -40.5, 39.5, 8, 40.5, 39.5, 8, -40.5, 40.5, 8, -40.5, 40.5, 0, -40.5, 39.5, 0, -40.5, 40.5, 0, 40.5, 39.5, 0, -40.5, 39.5, 0, 40.5, 40.5, 0, 40.5, 40.5, 0, 40.5, 40.5, 8, 40.5, 40.5, 8, -40.5, 40.5, 8, -40.5, 40.5, 0, -40.5, 40.5, 0, 40.5, 40.5, 8, 40.5, 39.5, 8, 40.5, 40.5, 8, -40.5)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_fcfvj"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_pa8r4"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_pa8r4"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15mv3"]
+albedo_color = Color(0.113665, 0.113665, 0.113665, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3sih"]
+albedo_color = Color(0.215686, 0.219608, 0.227451, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2y5yt"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_2os1m"]
+resource_name = "fly"
+length = 0.133337
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/WingPivotR:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.523599), Vector3(0, 0, 0), Vector3(0, 0, -0.523599), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/WingPivotL:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.523599), Vector3(0, 0, 0), Vector3(0, 0, 0.523599), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_go7sj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/WingPivotR:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/WingPivotL:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7gny6"]
+_data = {
+&"RESET": SubResource("Animation_go7sj"),
+&"fly": SubResource("Animation_2os1m")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_15mv3"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="level1" type="Node3D"]
 
@@ -220,17 +298,54 @@ multiplayer_player = ExtResource("2_bswci")
 _spawnable_scenes = PackedStringArray("uid://bxysbdheic8vd")
 spawn_path = NodePath("../player_spawn")
 
-[node name="Ball" type="RigidBody3D" parent="."]
+[node name="Ball" parent="." instance=ExtResource("7_pa8r4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
-mass = 0.2
-contact_monitor = true
-max_contacts_reported = 2
-angular_damp = 1.0
-script = ExtResource("7_pa8r4")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
-shape = SubResource("SphereShape3D_fcfvj")
+[node name="FlyEnemy" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("8_15mv3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
-mesh = SubResource("SphereMesh_pa8r4")
-surface_material_override/0 = ExtResource("2_fcfvj")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FlyEnemy"]
+shape = SubResource("SphereShape3D_pa8r4")
+
+[node name="visuals" type="Node3D" parent="FlyEnemy"]
+
+[node name="Body" type="CSGCylinder3D" parent="FlyEnemy/visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+height = 1.0
+sides = 12
+material = SubResource("StandardMaterial3D_15mv3")
+
+[node name="WingPivotR" type="Node3D" parent="FlyEnemy/visuals"]
+
+[node name="WingR" type="CSGBox3D" parent="FlyEnemy/visuals/WingPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.716642, 0.133587, 0)
+size = Vector3(0.6, 0.1, 1)
+
+[node name="WingPivotL" type="Node3D" parent="FlyEnemy/visuals"]
+
+[node name="WingL" type="CSGBox3D" parent="FlyEnemy/visuals/WingPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.717, 0.134, 0)
+size = Vector3(0.6, 0.1, 1)
+
+[node name="Head" type="CSGSphere3D" parent="FlyEnemy/visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.446851)
+material = SubResource("StandardMaterial3D_e3sih")
+
+[node name="EyeR" type="CSGSphere3D" parent="FlyEnemy/visuals/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208635, 0.264, -0.303319)
+radius = 0.1
+material = SubResource("StandardMaterial3D_2y5yt")
+
+[node name="EyeL" type="CSGSphere3D" parent="FlyEnemy/visuals/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.209, 0.264, -0.303)
+radius = 0.1
+material = SubResource("StandardMaterial3D_2y5yt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FlyEnemy"]
+libraries = {
+&"": SubResource("AnimationLibrary_7gny6")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="FlyEnemy"]
+replication_config = SubResource("SceneReplicationConfig_15mv3")

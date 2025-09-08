@@ -1,7 +1,7 @@
 extends Node
 
-signal spawn_player(id)
-signal despawn_player(id)
+signal player_joined(id)
+signal player_left(id)
 
 func connect_signals():
 	multiplayer.peer_connected.connect(on_peer_connected)
@@ -9,8 +9,8 @@ func connect_signals():
 	
 func on_peer_connected(id : int):
 	if multiplayer.is_server():
-		spawn_player.emit(id)
+		player_joined.emit(id)
 
 func on_peer_disconnected(id : int):
 	if multiplayer.is_server():
-		despawn_player.emit(id)
+		player_left.emit(id)
