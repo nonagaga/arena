@@ -1,0 +1,183 @@
+[gd_scene load_steps=16 format=3 uid="uid://dcb1hi70qo8om"]
+
+[ext_resource type="Script" uid="uid://ceqjua0id7uen" path="res://scenes/fly_enemy.gd" id="1_gcxh2"]
+[ext_resource type="Shader" uid="uid://4ww7p3mpxo2w" path="res://shaders/hit.gdshader" id="2_qyn3h"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pa8r4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8fvip"]
+render_priority = 0
+shader = ExtResource("2_qyn3h")
+shader_parameter/fade = 0.0
+shader_parameter/base_color = Color(0, 0, 0, 1)
+shader_parameter/hit_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15mv3"]
+albedo_color = Color(0.113665, 0.113665, 0.113665, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3sih"]
+albedo_color = Color(0.215686, 0.219608, 0.227451, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2y5yt"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_go7sj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/CSGCombiner3D/WingPivotR:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/CSGCombiner3D/WingPivotL:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2os1m"]
+resource_name = "fly"
+length = 0.133337
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/CSGCombiner3D/WingPivotR:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.523599), Vector3(0, 0, 0), Vector3(0, 0, -0.523599), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/CSGCombiner3D/WingPivotL:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.523599), Vector3(0, 0, 0), Vector3(0, 0, 0.523599), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7gny6"]
+_data = {
+&"RESET": SubResource("Animation_go7sj"),
+&"fly": SubResource("Animation_2os1m")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_15mv3"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyn3h"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_8fvip"]
+
+[sub_resource type="Curve" id="Curve_mbsbq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_35qd7"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 0)
+
+[node name="FlyEnemy" type="CharacterBody3D"]
+script = ExtResource("1_gcxh2")
+movement_speed = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_pa8r4")
+
+[node name="visuals" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="visuals"]
+material_override = SubResource("ShaderMaterial_8fvip")
+
+[node name="Body" type="CSGCylinder3D" parent="visuals/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+height = 1.0
+sides = 12
+material = SubResource("StandardMaterial3D_15mv3")
+
+[node name="WingPivotR" type="Node3D" parent="visuals/CSGCombiner3D"]
+
+[node name="WingR" type="CSGBox3D" parent="visuals/CSGCombiner3D/WingPivotR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.716642, 0.133587, 0)
+size = Vector3(0.6, 0.1, 1)
+
+[node name="WingPivotL" type="Node3D" parent="visuals/CSGCombiner3D"]
+
+[node name="WingL" type="CSGBox3D" parent="visuals/CSGCombiner3D/WingPivotL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.717, 0.134, 0)
+size = Vector3(0.6, 0.1, 1)
+
+[node name="Head" type="CSGSphere3D" parent="visuals/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.446851)
+material = SubResource("StandardMaterial3D_e3sih")
+
+[node name="EyeR" type="CSGSphere3D" parent="visuals/CSGCombiner3D/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208635, 0.264, -0.303319)
+radius = 0.1
+material = SubResource("StandardMaterial3D_2y5yt")
+
+[node name="EyeL" type="CSGSphere3D" parent="visuals/CSGCombiner3D/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.209, 0.264, -0.303)
+radius = 0.1
+material = SubResource("StandardMaterial3D_2y5yt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7gny6")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_15mv3")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = -5.0
+simplify_path = true
+debug_enabled = true
+
+[node name="BloodParticles" type="CPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_qyn3h")
+emitting = false
+amount = 16
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("BoxMesh_8fvip")
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+angular_velocity_min = -83.95
+angular_velocity_max = 71.03
+scale_amount_min = 0.1
+scale_amount_max = 0.1
+scale_amount_curve = SubResource("Curve_mbsbq")
+color_ramp = SubResource("Gradient_35qd7")

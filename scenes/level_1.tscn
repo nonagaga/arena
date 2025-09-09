@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cx5j2bgr6scav"]
+[gd_scene load_steps=18 format=3 uid="uid://cx5j2bgr6scav"]
 
 [ext_resource type="Texture2D" uid="uid://gs6n3sg4t772" path="res://assets/godot-prototype-texture/PNG/checker_black_512x512.png" id="1_014kd"]
 [ext_resource type="PackedScene" uid="uid://bxysbdheic8vd" path="res://scenes/player.tscn" id="2_bswci"]
@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://budim8n3mshod" path="res://scenes/target.tscn" id="4_5xbjy"]
 [ext_resource type="Script" uid="uid://87a4kg1g1fsl" path="res://scenes/oidgui.gd" id="4_fcfvj"]
 [ext_resource type="Script" uid="uid://bgs77nisb8fed" path="res://scenes/player_spawner.gd" id="5_4nkto"]
+[ext_resource type="PackedScene" uid="uid://dcb1hi70qo8om" path="res://scenes/fly_enemy.tscn" id="6_15mv3"]
 [ext_resource type="PackedScene" uid="uid://cwp8cg16oh87x" path="res://scenes/ball.tscn" id="7_pa8r4"]
-[ext_resource type="Script" uid="uid://ceqjua0id7uen" path="res://scenes/fly_enemy.gd" id="8_15mv3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bswci"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -21,6 +21,10 @@ background_mode = 2
 sky = SubResource("Sky_rus8k")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_e3sih"]
+vertices = PackedVector3Array(-41, 0.5, -41.75, -38.75, 0.5, -42, -38.75, 0.5, -49.5, -49.5, 0.5, -39.75, -41, 0.5, -39.75, -49.5, 0.5, -49.5, 39, 0.5, -42, 39, 0.5, -49.5, 41, 0.5, -42, 41.25, 0.5, -40.25, 49.5, 0.5, -40.5, 49.5, 0.5, -49.5, 41.25, 0.5, 40.25, 49.5, 0.5, 40.5, -49.5, 0.5, 40, -41, 0.5, 40, 2.25, 0.5, -1, 3.75, 0.5, -1, 3.5, 0.5, -39.75, 2, 0.5, 0.5, -38.75, 0.5, -39.75, -38.75, 0.5, 0.5, 5.5, 0.5, -1, 5.75, 0.5, -39.75, 7, 0.5, -1, 7.25, 0.5, 0.5, 39, 0.5, 0.5, 39, 0.5, -39.75, 3.5, 0.5, 40, 3.75, 0.5, 2.25, 2, 0.5, 2, -38.75, 0.5, 40, 7.25, 0.5, 1.75, 6.75, 0.5, 2.25, 5.5, 0.5, 40, 39, 0.5, 40, 5.25, 0.5, 2.25, -39.5, 0.5, 49.5, -39.25, 0.5, 42.25, -41, 0.5, 42, -49.5, 0.5, 49.5, 40.75, 0.5, 42.25, 39.25, 0.5, 42.25, 39.5, 0.5, 49.5, 41.25, 0.5, 41.75, 49.5, 0.5, 49.5)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(0, 4, 3), PackedInt32Array(3, 5, 0), PackedInt32Array(0, 5, 2), PackedInt32Array(2, 7, 1), PackedInt32Array(1, 7, 6), PackedInt32Array(8, 6, 7), PackedInt32Array(10, 9, 8), PackedInt32Array(10, 8, 11), PackedInt32Array(11, 8, 7), PackedInt32Array(9, 10, 12), PackedInt32Array(12, 10, 13), PackedInt32Array(3, 4, 14), PackedInt32Array(14, 4, 15), PackedInt32Array(18, 17, 16), PackedInt32Array(16, 19, 18), PackedInt32Array(18, 19, 21), PackedInt32Array(18, 21, 20), PackedInt32Array(17, 18, 22), PackedInt32Array(22, 18, 23), PackedInt32Array(25, 24, 26), PackedInt32Array(26, 24, 27), PackedInt32Array(27, 24, 23), PackedInt32Array(24, 22, 23), PackedInt32Array(29, 28, 30), PackedInt32Array(30, 28, 31), PackedInt32Array(30, 31, 21), PackedInt32Array(21, 19, 30), PackedInt32Array(32, 25, 26), PackedInt32Array(32, 26, 33), PackedInt32Array(33, 26, 35), PackedInt32Array(33, 35, 34), PackedInt32Array(34, 36, 33), PackedInt32Array(29, 36, 28), PackedInt32Array(28, 36, 34), PackedInt32Array(39, 38, 37), PackedInt32Array(14, 15, 39), PackedInt32Array(37, 40, 39), PackedInt32Array(39, 40, 14), PackedInt32Array(43, 42, 41), PackedInt32Array(41, 44, 43), PackedInt32Array(43, 44, 45), PackedInt32Array(45, 44, 13), PackedInt32Array(44, 12, 13), PackedInt32Array(38, 42, 37), PackedInt32Array(37, 42, 43)]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_bswci"]
 
@@ -37,87 +41,6 @@ data = PackedVector3Array(3.5, 0, -0.5, 3.5, 1, -0.5, 2.5, 1, -0.5, 2.5, 1, -0.5
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_pa8r4"]
 data = PackedVector3Array(40.5, 8, 41.5, 39.5, 8, 40.5, 40.5, 8, 40.5, -39.5, 8, 40.5, 40.5, 8, 41.5, -40.5, 8, 40.5, -40.5, 8, 40.5, 40.5, 8, 41.5, -40.5, 8, 41.5, -40.5, 8, 41.5, 40.5, 8, 41.5, -40.5, 0, 41.5, -40.5, 8, 40.5, -40.5, 8, 41.5, -40.5, 0, 41.5, -40.5, 0, 41.5, 40.5, 0, 40.5, 39.5, 0, 40.5, -40.5, 0, 41.5, 40.5, 0, 41.5, 40.5, 0, 40.5, 40.5, 8, 41.5, 40.5, 0, 41.5, -40.5, 0, 41.5, 40.5, 0, 41.5, 40.5, 8, 41.5, 40.5, 0, 40.5, -39.5, 0, 40.5, 39.5, 0, 40.5, -39.5, 8, 40.5, 39.5, 0, 40.5, -39.5, 0, 40.5, -40.5, 0, 41.5, -40.5, 0, 41.5, -40.5, 0, 40.5, -40.5, 8, 40.5, -40.5, 0, 41.5, -39.5, 0, 40.5, -40.5, 0, 40.5, 39.5, 0, 40.5, 39.5, 8, 40.5, -39.5, 8, 40.5, -39.5, 8, 40.5, 39.5, 8, 40.5, 40.5, 8, 41.5, 40.5, 8, 41.5, 40.5, 8, 40.5, 40.5, 0, 40.5, 40.5, 0, -41.5, 40.5, 8, -41.5, -40.5, 8, -41.5, -40.5, 8, -41.5, 40.5, 8, -40.5, 39.5, 8, -40.5, 40.5, 8, -41.5, 40.5, 8, -40.5, -40.5, 8, -41.5, 40.5, 8, -40.5, 40.5, 8, -41.5, 40.5, 0, -41.5, 40.5, 0, -40.5, 40.5, 8, -40.5, 40.5, 0, -41.5, 40.5, 0, -41.5, 39.5, 0, -40.5, 40.5, 0, -40.5, 39.5, 0, -40.5, -39.5, 0, -40.5, 39.5, 8, -40.5, -39.5, 0, -40.5, 39.5, 0, -40.5, 40.5, 0, -41.5, -40.5, 8, -41.5, -40.5, 8, -40.5, -40.5, 0, -40.5, -40.5, 0, -40.5, -40.5, 0, -41.5, -40.5, 8, -41.5, -40.5, 0, -40.5, 40.5, 0, -41.5, -40.5, 0, -41.5, -40.5, 0, -40.5, -39.5, 0, -40.5, 40.5, 0, -41.5, 40.5, 0, -41.5, -40.5, 8, -41.5, -40.5, 0, -41.5, -40.5, 8, -41.5, -39.5, 8, -40.5, -40.5, 8, -40.5, -39.5, 0, -40.5, -39.5, 8, -40.5, 39.5, 8, -40.5, 39.5, 8, -40.5, -39.5, 8, -40.5, -40.5, 8, -41.5, -39.5, 8, -40.5, -39.5, 8, 40.5, -40.5, 8, 40.5, -39.5, 0, -40.5, -39.5, 0, 40.5, -39.5, 8, -40.5, -39.5, 0, 40.5, -39.5, 8, 40.5, -39.5, 8, -40.5, -40.5, 0, 40.5, -39.5, 0, 40.5, -40.5, 0, -40.5, -40.5, 8, 40.5, -40.5, 0, 40.5, -40.5, 0, -40.5, -39.5, 0, 40.5, -39.5, 0, -40.5, -40.5, 0, -40.5, -40.5, 0, -40.5, -40.5, 8, -40.5, -40.5, 8, 40.5, -40.5, 8, -40.5, -39.5, 8, -40.5, -40.5, 8, 40.5, 39.5, 8, 40.5, 39.5, 0, 40.5, 39.5, 0, -40.5, 39.5, 8, -40.5, 39.5, 8, 40.5, 39.5, 0, -40.5, 39.5, 8, 40.5, 39.5, 8, -40.5, 40.5, 8, -40.5, 40.5, 0, -40.5, 39.5, 0, -40.5, 40.5, 0, 40.5, 39.5, 0, -40.5, 39.5, 0, 40.5, 40.5, 0, 40.5, 40.5, 0, 40.5, 40.5, 8, 40.5, 40.5, 8, -40.5, 40.5, 8, -40.5, 40.5, 0, -40.5, 40.5, 0, 40.5, 40.5, 8, 40.5, 39.5, 8, 40.5, 40.5, 8, -40.5)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_pa8r4"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15mv3"]
-albedo_color = Color(0.113665, 0.113665, 0.113665, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3sih"]
-albedo_color = Color(0.215686, 0.219608, 0.227451, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2y5yt"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="Animation" id="Animation_2os1m"]
-resource_name = "fly"
-length = 0.133337
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("visuals/WingPivotR:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.523599), Vector3(0, 0, 0), Vector3(0, 0, -0.523599), Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("visuals/WingPivotL:rotation")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.523599), Vector3(0, 0, 0), Vector3(0, 0, 0.523599), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_go7sj"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("visuals/WingPivotR:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("visuals/WingPivotL:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7gny6"]
-_data = {
-&"RESET": SubResource("Animation_go7sj"),
-&"fly": SubResource("Animation_2os1m")
-}
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_15mv3"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [node name="level1" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -126,96 +49,6 @@ environment = SubResource("Environment_5xbjy")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
-
-[node name="Floor" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-shape = SubResource("WorldBoundaryShape3D_bswci")
-debug_fill = false
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-material_override = SubResource("StandardMaterial3D_rus8k")
-mesh = SubResource("PlaneMesh_5xbjy")
-
-[node name="Buildings" type="Node3D" parent="."]
-
-[node name="Stairs" type="StaticBody3D" parent="Buildings"]
-
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Buildings/Stairs"]
-material_override = ExtResource("2_fcfvj")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Buildings/Stairs/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 0)
-material_override = ExtResource("2_fcfvj")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Buildings/Stairs/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
-material_override = ExtResource("2_fcfvj")
-size = Vector3(1, 2, 1)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Buildings/Stairs/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
-material_override = ExtResource("2_fcfvj")
-size = Vector3(1, 3, 1)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="Buildings/Stairs/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
-material_override = ExtResource("2_fcfvj")
-size = Vector3(1, 4, 1)
-
-[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="Buildings/Stairs"]
-shape = SubResource("ConcavePolygonShape3D_rus8k")
-
-[node name="Stairs2" type="StaticBody3D" parent="Buildings"]
-
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Buildings/Stairs2"]
-material_override = ExtResource("2_fcfvj")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Buildings/Stairs2/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 0)
-material_override = ExtResource("2_fcfvj")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Buildings/Stairs2/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
-material_override = ExtResource("2_fcfvj")
-size = Vector3(1, 2, 1)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Buildings/Stairs2/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
-material_override = ExtResource("2_fcfvj")
-size = Vector3(1, 3, 1)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="Buildings/Stairs2/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
-material_override = ExtResource("2_fcfvj")
-size = Vector3(1, 4, 1)
-
-[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="Buildings/Stairs2"]
-shape = SubResource("ConcavePolygonShape3D_rus8k")
-
-[node name="Walls" type="StaticBody3D" parent="Buildings"]
-
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Buildings/Walls"]
-material_override = ExtResource("2_fcfvj")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Buildings/Walls/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 41)
-size = Vector3(81, 8, 1)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="Buildings/Walls/CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -41)
-size = Vector3(81, 8, 1)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Buildings/Walls/CSGCombiner3D"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -40, 4, 0)
-size = Vector3(81, 8, 1)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Buildings/Walls/CSGCombiner3D"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 40, 4, 0)
-size = Vector3(81, 8, 1)
-
-[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="Buildings/Walls"]
-shape = SubResource("ConcavePolygonShape3D_pa8r4")
 
 [node name="Target" parent="." instance=ExtResource("4_5xbjy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
@@ -301,51 +134,99 @@ spawn_path = NodePath("../player_spawn")
 [node name="Ball" parent="." instance=ExtResource("7_pa8r4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
 
-[node name="FlyEnemy" type="CharacterBody3D" parent="."]
+[node name="FlyEnemy" parent="." instance=ExtResource("6_15mv3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = ExtResource("8_15mv3")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FlyEnemy"]
-shape = SubResource("SphereShape3D_pa8r4")
+[node name="MapNavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_e3sih")
 
-[node name="visuals" type="Node3D" parent="FlyEnemy"]
+[node name="Floor" type="StaticBody3D" parent="MapNavigationRegion3D"]
 
-[node name="Body" type="CSGCylinder3D" parent="FlyEnemy/visuals"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-height = 1.0
-sides = 12
-material = SubResource("StandardMaterial3D_15mv3")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapNavigationRegion3D/Floor"]
+shape = SubResource("WorldBoundaryShape3D_bswci")
+debug_fill = false
 
-[node name="WingPivotR" type="Node3D" parent="FlyEnemy/visuals"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MapNavigationRegion3D/Floor"]
+material_override = SubResource("StandardMaterial3D_rus8k")
+mesh = SubResource("PlaneMesh_5xbjy")
 
-[node name="WingR" type="CSGBox3D" parent="FlyEnemy/visuals/WingPivotR"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.716642, 0.133587, 0)
-size = Vector3(0.6, 0.1, 1)
+[node name="Buildings" type="Node3D" parent="MapNavigationRegion3D"]
 
-[node name="WingPivotL" type="Node3D" parent="FlyEnemy/visuals"]
+[node name="Stairs" type="StaticBody3D" parent="MapNavigationRegion3D/Buildings"]
 
-[node name="WingL" type="CSGBox3D" parent="FlyEnemy/visuals/WingPivotL"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.717, 0.134, 0)
-size = Vector3(0.6, 0.1, 1)
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="MapNavigationRegion3D/Buildings/Stairs"]
+material_override = ExtResource("2_fcfvj")
 
-[node name="Head" type="CSGSphere3D" parent="FlyEnemy/visuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.446851)
-material = SubResource("StandardMaterial3D_e3sih")
+[node name="CSGBox3D" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 0)
+material_override = ExtResource("2_fcfvj")
 
-[node name="EyeR" type="CSGSphere3D" parent="FlyEnemy/visuals/Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208635, 0.264, -0.303319)
-radius = 0.1
-material = SubResource("StandardMaterial3D_2y5yt")
+[node name="CSGBox3D2" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+material_override = ExtResource("2_fcfvj")
+size = Vector3(1, 2, 1)
 
-[node name="EyeL" type="CSGSphere3D" parent="FlyEnemy/visuals/Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.209, 0.264, -0.303)
-radius = 0.1
-material = SubResource("StandardMaterial3D_2y5yt")
+[node name="CSGBox3D3" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+material_override = ExtResource("2_fcfvj")
+size = Vector3(1, 3, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FlyEnemy"]
-libraries = {
-&"": SubResource("AnimationLibrary_7gny6")
-}
+[node name="CSGBox3D4" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
+material_override = ExtResource("2_fcfvj")
+size = Vector3(1, 4, 1)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="FlyEnemy"]
-replication_config = SubResource("SceneReplicationConfig_15mv3")
+[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="MapNavigationRegion3D/Buildings/Stairs"]
+shape = SubResource("ConcavePolygonShape3D_rus8k")
+
+[node name="Stairs2" type="StaticBody3D" parent="MapNavigationRegion3D/Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="MapNavigationRegion3D/Buildings/Stairs2"]
+material_override = ExtResource("2_fcfvj")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs2/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 0)
+material_override = ExtResource("2_fcfvj")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs2/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+material_override = ExtResource("2_fcfvj")
+size = Vector3(1, 2, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs2/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+material_override = ExtResource("2_fcfvj")
+size = Vector3(1, 3, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Stairs2/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
+material_override = ExtResource("2_fcfvj")
+size = Vector3(1, 4, 1)
+
+[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="MapNavigationRegion3D/Buildings/Stairs2"]
+shape = SubResource("ConcavePolygonShape3D_rus8k")
+
+[node name="Walls" type="StaticBody3D" parent="MapNavigationRegion3D/Buildings"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="MapNavigationRegion3D/Buildings/Walls"]
+material_override = ExtResource("2_fcfvj")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Walls/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 41)
+size = Vector3(81, 8, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Walls/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -41)
+size = Vector3(81, 8, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Walls/CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -40, 4, 0)
+size = Vector3(81, 8, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="MapNavigationRegion3D/Buildings/Walls/CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 40, 4, 0)
+size = Vector3(81, 8, 1)
+
+[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="MapNavigationRegion3D/Buildings/Walls"]
+shape = SubResource("ConcavePolygonShape3D_pa8r4")
