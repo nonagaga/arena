@@ -53,6 +53,7 @@ func _physics_process(delta: float) -> void:
 		var end = origin + camera_3d.project_ray_normal(mousepos) * SHOOT_RANGE
 		var query = PhysicsRayQueryParameters3D.create(origin, end)
 		query.collide_with_areas = true
+		query.collision_mask = 0x0003
 
 		var result = space_state.intersect_ray(query)
 		if result:

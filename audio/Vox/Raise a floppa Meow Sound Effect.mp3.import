@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dnr4wsxtb1eti"
+path="res://.godot/imported/Raise a floppa Meow Sound Effect.mp3-f1fbd1a488c39e3f94066e890d8f6e07.mp3str"
+
+[deps]
+
+source_file="res://audio/Vox/Raise a floppa Meow Sound Effect.mp3"
+dest_files=["res://.godot/imported/Raise a floppa Meow Sound Effect.mp3-f1fbd1a488c39e3f94066e890d8f6e07.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

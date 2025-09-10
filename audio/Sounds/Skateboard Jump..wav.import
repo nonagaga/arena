@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ce8aav2ylmt35"
+path="res://.godot/imported/Skateboard Jump..wav-da268c76e4659987b90811e3dc9b07fd.sample"
+
+[deps]
+
+source_file="res://audio/Sounds/Skateboard Jump..wav"
+dest_files=["res://.godot/imported/Skateboard Jump..wav-da268c76e4659987b90811e3dc9b07fd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

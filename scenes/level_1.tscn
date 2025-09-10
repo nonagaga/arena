@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://budim8n3mshod" path="res://scenes/target.tscn" id="4_5xbjy"]
 [ext_resource type="Script" uid="uid://87a4kg1g1fsl" path="res://scenes/oidgui.gd" id="4_fcfvj"]
 [ext_resource type="Script" uid="uid://bgs77nisb8fed" path="res://scenes/player_spawner.gd" id="5_4nkto"]
-[ext_resource type="PackedScene" uid="uid://dcb1hi70qo8om" path="res://scenes/fly_enemy.tscn" id="6_15mv3"]
 [ext_resource type="PackedScene" uid="uid://cwp8cg16oh87x" path="res://scenes/ball.tscn" id="7_pa8r4"]
+[ext_resource type="PackedScene" uid="uid://bs1elqfroh402" path="res://scenes/cat.tscn" id="8_15mv3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bswci"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -134,9 +134,6 @@ spawn_path = NodePath("../player_spawn")
 [node name="Ball" parent="." instance=ExtResource("7_pa8r4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
 
-[node name="FlyEnemy" parent="." instance=ExtResource("6_15mv3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-
 [node name="MapNavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_e3sih")
 
@@ -230,3 +227,7 @@ size = Vector3(81, 8, 1)
 
 [node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="MapNavigationRegion3D/Buildings/Walls"]
 shape = SubResource("ConcavePolygonShape3D_pa8r4")
+
+[node name="Cat" parent="." node_paths=PackedStringArray("player_spawner") instance=ExtResource("8_15mv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.97513, 0, 4.11569)
+player_spawner = NodePath("../player_spawn")

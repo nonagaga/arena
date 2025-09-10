@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://uetilfxi7wj3"
+path="res://.godot/imported/Skateboard Skatin..wav-dba0a81da4b4cbc89ee0606647054445.sample"
+
+[deps]
+
+source_file="res://audio/Sounds/Skateboard Skatin..wav"
+dest_files=["res://.godot/imported/Skateboard Skatin..wav-dba0a81da4b4cbc89ee0606647054445.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
