@@ -20,7 +20,6 @@ const EL_GATO = preload("res://images/El_Gato.png")
 
 @rpc("any_peer","call_local","reliable")
 func damage():
-	ouch.play()
 	cat_sprite.texture = OHMYGOS
 	animation_player.stop(true)
 	animation_player.play("hurt",0)
@@ -47,7 +46,12 @@ func _ready() -> void:
 	_setup_audio_callbacks()
 
 func _physics_process(delta: float) -> void:
+	if not multiplayer.is_server():
+		return
 	look_at(get_viewport().get_camera_3d().global_position, Vector3.UP)
+	rotation.x = 0
+	rotation.z = 0
+	
 	movement_target_position = target.global_position
 	navigation_agent_3d.set_target_position(movement_target_position)
 	
@@ -58,8 +62,6 @@ func _physics_process(delta: float) -> void:
 	var next_path_position: Vector3 = navigation_agent_3d.get_next_path_position()
 
 	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
-	if velocity != Vector3.ZERO:
-		look_at(global_position + velocity.normalized())
 	move_and_slide()
 
 func _on_player_spawned(spawned_player):

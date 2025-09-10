@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bs1elqfroh402"]
+[gd_scene load_steps=16 format=3 uid="uid://bs1elqfroh402"]
 
 [ext_resource type="Texture2D" uid="uid://k3bprghx7lbo" path="res://images/El_Gato.png" id="1_cxap7"]
 [ext_resource type="Script" uid="uid://b6nymfetd8133" path="res://scenes/cat.gd" id="1_tol8a"]
@@ -23,6 +23,33 @@ stream_0/stream = ExtResource("5_8px16")
 [sub_resource type="BoxShape3D" id="BoxShape3D_tol8a"]
 size = Vector3(2, 2, 0.1)
 
+[sub_resource type="Animation" id="Animation_ic5u8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sounds/ouch:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="Animation" id="Animation_o55mh"]
 resource_name = "hurt"
 length = 0.500003
@@ -38,20 +65,17 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0.75, 1, 1), Vector3(1, 1, 1)]
 }
-
-[sub_resource type="Animation" id="Animation_ic5u8"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("visuals:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sounds/ouch:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1, 1, 1)]
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8px16"]
@@ -59,6 +83,11 @@ _data = {
 &"RESET": SubResource("Animation_ic5u8"),
 &"hurt": SubResource("Animation_o55mh")
 }
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_o55mh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="Cat" type="CharacterBody3D"]
 collision_layer = 4
@@ -70,7 +99,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="cat_sprite" type="Sprite3D" parent="visuals"]
 pixel_size = 0.00507614
-billboard = 2
 texture = ExtResource("1_cxap7")
 script = ExtResource("2_tol8a")
 image_size = 2.0
@@ -109,3 +137,6 @@ debug_enabled = true
 libraries = {
 &"": SubResource("AnimationLibrary_8px16")
 }
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_o55mh")
