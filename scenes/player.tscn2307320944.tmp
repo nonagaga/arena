@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bu7x0pejbdts8" path="res://scenes/player.gd" id="1_3vyb7"]
 [ext_resource type="AnimationLibrary" uid="uid://deakahykjmf24" path="res://assets/anims/XBot_anims.res" id="2_g2els"]
+[ext_resource type="Script" uid="uid://c42pkf5s017xr" path="res://scenes/visual_interpolation.gd" id="2_qlg0r"]
 [ext_resource type="Script" uid="uid://cm38cdina80hn" path="res://scripts/player_input.gd" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://dxtgr6v56b3e2" path="res://scripts/camera_input.gd" id="6_tuyoq"]
 
@@ -281,6 +282,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.901694, 0)
 shape = SubResource("CapsuleShape3D_3vyb7")
 
 [node name="Visuals" type="Node3D" parent="." unique_id=1319833804]
+script = ExtResource("2_qlg0r")
+interp_speed = 2.0
 
 [node name="mixamo_base" type="Node3D" parent="Visuals" unique_id=970431880]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
@@ -768,6 +771,8 @@ margin = 0.1
 fov = 70.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2075201158]
+replication_interval = 1.0
+delta_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_g2els")
 
 [node name="PlayerInput" type="Node" parent="." unique_id=1863453735]

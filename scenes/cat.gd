@@ -52,8 +52,9 @@ func _physics_process(delta: float) -> void:
 	rotation.x = 0
 	rotation.z = 0
 	
-	movement_target_position = target.global_position
-	navigation_agent_3d.set_target_position(movement_target_position)
+	if(target):
+		movement_target_position = target.global_position
+		navigation_agent_3d.set_target_position(movement_target_position)
 	
 	if navigation_agent_3d.is_navigation_finished():
 		return
