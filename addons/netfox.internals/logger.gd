@@ -120,7 +120,7 @@ func _format_text(text: String, values: Array, level: int) -> String:
 
 func _log_text(text: String, values: Array, level: int):
 	if _check_log_level(level):
-		print(_format_text(text, values, level))
+		Console.print(_format_text(text, values, level))
 
 func trace(text: String, values: Array = []):
 	_log_text(text, values, LOG_TRACE)
@@ -136,11 +136,11 @@ func warning(text: String, values: Array = []):
 		var formatted_text = _format_text(text, values, LOG_WARN)
 		push_warning(formatted_text)
 		# Print so it shows up in the Output panel too
-		print(formatted_text)
+		Console.print(formatted_text)
 
 func error(text: String, values: Array = []):
 	if _check_log_level(LOG_ERROR):
 		var formatted_text = _format_text(text, values, LOG_ERROR)
 		push_error(formatted_text)
 		# Print so it shows up in the Output panel too
-		print(formatted_text)
+		Console.print(formatted_text)

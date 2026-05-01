@@ -45,23 +45,6 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 	
-	if Input.is_action_just_pressed("shoot"):
-		var space_state = get_world_3d().direct_space_state
-		var mousepos = get_viewport().size/2
-
-		var origin = camera_3d.project_ray_origin(mousepos)
-		var end = origin + camera_3d.project_ray_normal(mousepos) * SHOOT_RANGE
-		var query = PhysicsRayQueryParameters3D.create(origin, end)
-		query.collide_with_areas = true
-		query.collision_mask = 0x0003
-
-		var result = space_state.intersect_ray(query)
-		if result:
-			var collider = result.get("collider")
-			if collider:
-				if collider.has_method("damage"):
-					collider.damage.rpc()
-	
 	if is_on_floor():
 		anim_locked = false
 	
@@ -69,13 +52,26 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-# Get the input direction and handle the movement/deceleration.
+	handle_shoot()
+	# only process movement if we're not looking at a UI
+	handle_movement(delta, get_viewport().gui_get_focus_owner() == null)
+
+	move_and_slide()
+
+func handle_movement(delta, controlled = true):
+	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-
+	var input_sprint := Input.is_action_pressed("sprint")
+	
+	if(not controlled):
+		input_dir = Vector2.ZERO
+		direction = Vector3.ZERO
+		input_sprint = false
+	
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		change_anim.rpc("XBot_anims/run_jump")
 		anim_locked = true
@@ -84,7 +80,7 @@ func _physics_process(delta: float) -> void:
 		change_anim.rpc("XBot_anims/fall")
 	
 	if direction:
-		if Input.is_action_pressed("sprint"):
+		if input_sprint:
 			if animation_player.current_animation != "XBot_anims/running" and not anim_locked and is_on_floor():
 				sprint_cam_tween()
 				change_anim.rpc("XBot_anims/running")
@@ -105,8 +101,25 @@ func _physics_process(delta: float) -> void:
 			reset_cam_tween()
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
+	
+func handle_shoot():
+	if Input.is_action_just_pressed("shoot"):
+		var space_state = get_world_3d().direct_space_state
+		var mousepos = get_viewport().size/2
 
-	move_and_slide()
+		var origin = camera_3d.project_ray_origin(mousepos)
+		var end = origin + camera_3d.project_ray_normal(mousepos) * SHOOT_RANGE
+		var query = PhysicsRayQueryParameters3D.create(origin, end)
+		query.collide_with_areas = true
+		query.collision_mask = 0x0003
+
+		var result = space_state.intersect_ray(query)
+		if result:
+			var collider = result.get("collider")
+			if collider:
+				if collider.has_method("damage"):
+					collider.damage.rpc()
+	
 
 func reset_cam_tween():
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
