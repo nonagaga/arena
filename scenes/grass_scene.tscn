@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://7i878pb05fhb"]
 
 [ext_resource type="Shader" uid="uid://w6xrr6x0iblq" path="res://assets/Grass/grass_shader.gdshader" id="1_qt2m7"]
-[ext_resource type="ArrayMesh" path="res://assets/Grass/GrassMesh.res" id="2_cs3gq"]
+[ext_resource type="ArrayMesh" uid="uid://ca02rlwfuu7g4" path="res://assets/Grass/GrassMesh.res" id="2_cs3gq"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_go7sj"]
 
@@ -12,7 +12,7 @@ shader_parameter/top_color = Color(0.627451, 0.8039216, 0.28235295, 1)
 shader_parameter/bottom_color = Color(0.41568628, 0.6156863, 0.22352941, 1)
 shader_parameter/ambient_occlusion_factor = 0.3
 shader_parameter/specular_strength = 0.4
-shader_parameter/player_displacement_strength = 0.2999999932944
+shader_parameter/player_displacement_strength = 0.0
 shader_parameter/player_displacement_size = 0.93999997898912
 shader_parameter/wind_direction = Vector3(1, -0.7, -0.5)
 shader_parameter/wind_strength = 0.22999999485904

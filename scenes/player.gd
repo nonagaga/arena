@@ -13,6 +13,8 @@ var speed = 0
 
 @export var SHOOT_RANGE = 1000
 
+@export var PUSH_STRENGTH = 5.0
+
 const JUMP_VELOCITY = 4.5
 const MOUSE_SENSITIVITY = 0.1
 
@@ -55,6 +57,8 @@ func _physics_process(delta: float) -> void:
 	handle_shoot()
 	# only process movement if we're not looking at a UI
 	handle_movement(delta, get_viewport().gui_get_focus_owner() == null)
+	# allows us to smoothly push rigidbodies
+	handle_physics_push(delta)
 
 	move_and_slide()
 
@@ -120,6 +124,24 @@ func handle_shoot():
 				if collider.has_method("damage"):
 					collider.damage.rpc()
 	
+func handle_physics_push(delta):
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var body = collision.get_collider()
+		
+		# Check if the object is a RigidBody
+		if body is RigidBody3D:
+			# Apply a force based on movement direction and speed
+			var push_force = body.mass * PUSH_STRENGTH
+			var direction = -collision.get_normal()
+			var impulse_vec = direction * velocity.length() * push_force
+			apply_network_central_impulse.rpc(body.get_path(), impulse_vec)
+
+@rpc("any_peer", "call_local", "reliable",1)
+func apply_network_central_impulse(node_path : String, impulse : Vector3):
+	var node = get_node(node_path)
+	if node is RigidBody3D:
+		node.apply_central_impulse(impulse)
 
 func reset_cam_tween():
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
