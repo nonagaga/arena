@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bk86la3oefin0"]
+
+[ext_resource type="PackedScene" uid="uid://ci8kducp05fdk" path="res://scenes/moon.scn" id="1_530pw"]
+
+[sub_resource type="Environment" id="Environment_xatjt"]
+
+[node name="Node3D" type="Node3D" unique_id=1707603633]
+
+[node name="Moon_NASA_LRO_8k_Topo" parent="." unique_id=479589413 instance=ExtResource("1_530pw")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1689820479]
+environment = SubResource("Environment_xatjt")

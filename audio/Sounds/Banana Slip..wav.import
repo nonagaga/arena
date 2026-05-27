@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dyjq3ujtrnqik"
+path="res://.godot/imported/Banana Slip..wav-c54108c671d1570655ba8fa56d77ccd7.sample"
+
+[deps]
+
+source_file="res://audio/Sounds/Banana Slip..wav"
+dest_files=["res://.godot/imported/Banana Slip..wav-c54108c671d1570655ba8fa56d77ccd7.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

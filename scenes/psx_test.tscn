@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bcfimiw5l60kk"]
+
+[ext_resource type="Shader" uid="uid://dyjn8w5gushqd" path="res://shaders/psx_post.gdshader" id="1_ofgsu"]
+[ext_resource type="PackedScene" uid="uid://cx5j2bgr6scav" path="res://scenes/level_1.tscn" id="2_lu803"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ffbe1"]
+shader = ExtResource("1_ofgsu")
+shader_parameter/enabled = true
+shader_parameter/dithering = true
+shader_parameter/colors = 12
+shader_parameter/dither_size = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" unique_id=1832073578]
+material = SubResource("ShaderMaterial_ffbe1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=261338886]
+scaling_3d_mode = 2
+scaling_3d_scale = 0.75
+size = Vector2i(1920, 1080)
+
+[node name="level1" parent="SubViewport" unique_id=436267627 instance=ExtResource("2_lu803")]

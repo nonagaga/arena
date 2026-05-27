@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://plshlilpnweu"]
+
+[ext_resource type="Script" uid="uid://xh47ngri1jqc" path="res://scenes/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="PackedScene" uid="uid://cx5j2bgr6scav" path="res://scenes/level_1.tscn" id="2_ekxnf"]
+
+[node name="MainMenu" type="Control" unique_id=148786647]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l6cm7")
+game_scene = ExtResource("2_ekxnf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=371527111]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HostButton" type="Button" parent="VBoxContainer" unique_id=2036581738]
+layout_mode = 2
+text = "Host"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1757976756]
+layout_mode = 2
+
+[node name="OID" type="TextEdit" parent="VBoxContainer/HBoxContainer" unique_id=1861875156]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+placeholder_text = "Enter OID Here"
+scroll_fit_content_height = true
+scroll_fit_content_width = true
+
+[node name="JoinButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=598439399]
+layout_mode = 2
+text = "Join"
+
+[node name="ConnectionLabel" type="RichTextLabel" parent="." unique_id=2016095442]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -199.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Connecting to Noray..."
+fit_content = true

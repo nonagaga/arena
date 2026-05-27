@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://budj0rt5ovhs0"]
+
+[ext_resource type="Script" uid="uid://ckafjhw80unn0" path="res://debug/console.gd" id="1_hhio4"]
+
+[node name="Console" type="CanvasLayer" unique_id=1170150439]
+script = ExtResource("1_hhio4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=167992669]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer" unique_id=1481861054]
+custom_minimum_size = Vector2(500, 800)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
+theme_override_colors/background_color = Color(0, 0, 0, 0.3019608)
+editable = false
+deselect_on_focus_loss_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1015139210]
+layout_mode = 2
+alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=1544579786]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+placeholder_text = "Dummy Command"
+keep_editing_on_text_submit = true
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=46166443]
+layout_mode = 2
+text = "Enter"

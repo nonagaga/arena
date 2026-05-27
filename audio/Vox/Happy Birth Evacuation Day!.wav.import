@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cp2ds62uxkvvn"
+path="res://.godot/imported/Happy Birth Evacuation Day!.wav-82ca902e8b9d886a56341d448a7d51c7.sample"
+
+[deps]
+
+source_file="res://audio/Vox/Happy Birth Evacuation Day!.wav"
+dest_files=["res://.godot/imported/Happy Birth Evacuation Day!.wav-82ca902e8b9d886a56341d448a7d51c7.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cc8q571rjfhfk"
+path="res://.godot/imported/Half Life Ping..wav-1602b5d9d43a87ca7017a477b60bed5b.sample"
+
+[deps]
+
+source_file="res://audio/Sounds/Half Life Ping..wav"
+dest_files=["res://.godot/imported/Half Life Ping..wav-1602b5d9d43a87ca7017a477b60bed5b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

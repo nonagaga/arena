@@ -1,0 +1,142 @@
+[gd_scene load_steps=16 format=3 uid="uid://bs1elqfroh402"]
+
+[ext_resource type="Texture2D" uid="uid://k3bprghx7lbo" path="res://images/El_Gato.png" id="1_cxap7"]
+[ext_resource type="Script" uid="uid://b6nymfetd8133" path="res://scenes/cat.gd" id="1_tol8a"]
+[ext_resource type="Script" uid="uid://csqahdisfmq6x" path="res://cat_sprite.gd" id="2_tol8a"]
+[ext_resource type="AudioStream" uid="uid://dnr4wsxtb1eti" path="res://audio/Vox/Raise a floppa Meow Sound Effect.mp3" id="3_o55mh"]
+[ext_resource type="AudioStream" uid="uid://csxmgdacjfo7" path="res://audio/Vox/GRRRR!.wav" id="4_ic5u8"]
+[ext_resource type="AudioStream" uid="uid://c0c3dtxbt16t3" path="res://audio/Vox/Ouch!.wav" id="5_8px16"]
+[ext_resource type="Script" uid="uid://clpvtcjsl6nog" path="res://scenes/hitbox.gd" id="7_o55mh"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kedyd"]
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("3_o55mh")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_v4p53"]
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("5_8px16")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cxap7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tol8a"]
+size = Vector3(2, 2, 0.1)
+
+[sub_resource type="Animation" id="Animation_ic5u8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sounds/ouch:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_o55mh"]
+resource_name = "hurt"
+length = 0.500003
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.257093, 0.257093),
+"update": 0,
+"values": [Vector3(0.75, 1, 1), Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sounds/ouch:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8px16"]
+_data = {
+&"RESET": SubResource("Animation_ic5u8"),
+&"hurt": SubResource("Animation_o55mh")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_o55mh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Cat" type="CharacterBody3D"]
+collision_layer = 4
+script = ExtResource("1_tol8a")
+movement_speed = 3.0
+
+[node name="visuals" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="cat_sprite" type="Sprite3D" parent="visuals"]
+pixel_size = 0.00507614
+texture = ExtResource("1_cxap7")
+script = ExtResource("2_tol8a")
+image_size = 2.0
+
+[node name="sounds" type="Node3D" parent="."]
+
+[node name="meow" type="AudioStreamPlayer3D" parent="sounds"]
+stream = SubResource("AudioStreamRandomizer_kedyd")
+
+[node name="angry" type="AudioStreamPlayer3D" parent="sounds"]
+stream = ExtResource("4_ic5u8")
+volume_db = -12.0
+
+[node name="ouch" type="AudioStreamPlayer3D" parent="sounds"]
+stream = SubResource("AudioStreamRandomizer_v4p53")
+
+[node name="meow_timer" type="Timer" parent="sounds"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_cxap7")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("7_o55mh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_tol8a")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+debug_enabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8px16")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_o55mh")
