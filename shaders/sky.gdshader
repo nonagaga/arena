@@ -15,7 +15,8 @@ uniform bool use_debanding = true;
 
 // ATMOSPHERE UNIFORMS
 group_uniforms Atmosphere;
-uniform int atmosphere_sample_count = 64;
+uniform int atmosphere_sample_count_lowres = 64;
+uniform int atmosphere_sample_count_fullres: hint_range(8, 64, 1) = 16;
 
 uniform float elevation = 0.0;
 
@@ -210,7 +211,7 @@ vec3 absorb (vec3 opticalDepth) {
 	) * atmosphere_density);
 }
 
-vec3 integrate_scattering (vec3 rayStart, vec3 rayDir, float rayLength, vec3 lightDir, vec3 lightColor, out vec3 transmittance)
+vec3 integrate_scattering (vec3 rayStart, vec3 rayDir, float rayLength, vec3 lightDir, vec3 lightColor, int atmosphere_sample_count, out vec3 transmittance)
 {
 	float  rayHeight = atmosphere_height(rayStart);
 	float  sampleDistributionExponent = 1.0 + saturate(1.0 - rayHeight / ATMOSPHERE_HEIGHT) * 8.0;
@@ -489,10 +490,10 @@ vec3 rainbow(vec3 eyedir, vec3 transmittance, vec4 clouds) {
 void sky() {
 	if (AT_CUBEMAP_PASS) {
 		vec3 transmittance;
-		COLOR = integrate_scattering(vec3(0.0, elevation, 0.0), EYEDIR, INFINITY, LIGHT0_DIRECTION, vec3(1.0, 0.996, 0.98), transmittance);
+		COLOR = integrate_scattering(vec3(0.0, elevation, 0.0), EYEDIR, INFINITY, LIGHT0_DIRECTION, vec3(1.0, 0.996, 0.98), atmosphere_sample_count_lowres, transmittance);
 	} else if (AT_QUARTER_RES_PASS) {
 		vec3 transmittance;
-		integrate_scattering(vec3(0.0, elevation, 0.0), EYEDIR, INFINITY, LIGHT0_DIRECTION, vec3(1.0, 0.996, 0.98), transmittance);
+		integrate_scattering(vec3(0.0, elevation, 0.0), EYEDIR, INFINITY, LIGHT0_DIRECTION, vec3(1.0, 0.996, 0.98), atmosphere_sample_count_lowres, transmittance);
 		COLOR = transmittance;
 	} else if (AT_HALF_RES_PASS) {
 		COLOR = vec3(0.0);
@@ -519,7 +520,15 @@ void sky() {
 		}
 	} else {
 		vec3 transmittance = QUARTER_RES_COLOR.rgb;
-		vec3 radiance = texture(RADIANCE, EYEDIR).rgb;
+		vec3 radiance = integrate_scattering(
+        vec3(0.0, elevation, 0.0),
+        EYEDIR,
+        INFINITY,
+        LIGHT0_DIRECTION,
+        vec3(1.0, 0.996, 0.98),
+		atmosphere_sample_count_fullres,
+        transmittance
+    );
 
 		float sun_mask = sun_disc(EYEDIR, LIGHT0_DIRECTION, LIGHT0_SIZE * 0.5);
 		vec3 sundisc = vec3(sun_mask) * transmittance * sundisc_intensity;
@@ -529,19 +538,23 @@ void sky() {
 			//stars_exposure *
 			//transmittance;
 		
-		 // atan2(x, z) maps the horizontal angle
+		// Remap phi from (-PI, PI] to [0, 1] safely
 		float phi = atan(EYEDIR.x, EYEDIR.z);
-	    
-	    // asin(y) maps the vertical angle from horizon (-1 to 1)
-	    float theta = asin(EYEDIR.y);
-		
-		vec2 sky_uv = vec2(
-        phi / (2.0 * PI) + 0.5,
-        theta / PI + 0.5
-    );
-	
-		vec3 stars = texture(panorama_texture, sky_uv).rgb;
+		float sky_u = phi / (2.0 * PI) + 0.5;
 
+		// Fix the seam: when x is near zero and z < 0,
+		// atan wraps from +PI to -PI. Clamp to [0,1) to prevent
+		// the sampler from seeing u=1.0 and u=0.0 as different edges.
+		sky_u = fract(sky_u);
+
+		vec2 sky_uv = vec2(
+		    sky_u,
+		    0.5 - asin(clamp(EYEDIR.y, -1.0, 1.0)) / PI
+		);
+		
+		vec3 stars = texture(panorama_texture, sky_uv).rgb * stars_exposure * transmittance;
+		stars *= stars;
+		
 		if (dim_stars_at_day) {
 			float stars_mult = smoothstep(
 				-0.1,
@@ -586,6 +599,7 @@ void sky() {
 		}
 
 		COLOR = radiance + (sundisc + stars) * moon_mask + moon_diff;
+		
 
 		// Cirrus Clouds
 		if (EYEDIR.y > 0.0 && use_cirrus) {
@@ -612,7 +626,7 @@ void sky() {
 
 		// Cumulus Clouds
 		vec4 clouds = HALF_RES_COLOR;
-		COLOR = mix(COLOR, clouds.rgb, clouds.a);
+		//COLOR = mix(COLOR, clouds.rgb, clouds.a);
 
 		// Rainbows
 		if (use_rainbow) {
@@ -622,5 +636,6 @@ void sky() {
 		if (use_debanding) {
 			COLOR += (rand(SKY_COORDS) - 0.5) * 0.001;
 		}
+		
 	}
 }

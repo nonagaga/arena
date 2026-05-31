@@ -30,8 +30,7 @@ func connect_to_noray():
 		printerr("Failed to register to Noray")
 		return err # Failed to register
 	
-	if isHost:
-		host_oid = Noray.oid
+	host_oid = Noray.oid
 	return OK
 
 func noray_start_host():
@@ -41,9 +40,10 @@ func noray_start_host():
 
 	if err != OK:
 		printerr("Failed to create server on port %s" % Noray.local_port)
-		return false # Failed to listen on port
+		return ERR_CANT_CREATE # Failed to listen on port
 	multiplayer.multiplayer_peer = peer
 	Network.connect_signals()
+	return OK
 
 func noray_start_client(oid : String):
 	host_oid = oid

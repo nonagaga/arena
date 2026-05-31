@@ -20,8 +20,11 @@ func _ready() -> void:
 func on_host_button_pressed():
 	NorayNetwork.isHost = true
 	if connected == OK:
-		await NorayNetwork.noray_start_host()
-	get_tree().change_scene_to_packed(game_scene)
+		var result = await NorayNetwork.noray_start_host()
+		if(result == OK):
+			get_tree().change_scene_to_packed(game_scene)
+		else:
+			printerr("Unable to create Noray Host!")
 	
 func on_join_button_pressed():
 	NorayNetwork.isHost = false

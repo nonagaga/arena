@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bxysbdheic8vd" path="res://scenes/player.tscn" id="2_bswci"]
 [ext_resource type="Material" uid="uid://cb3176gy5budq" path="res://materials/orange_debug.tres" id="2_fcfvj"]
 [ext_resource type="PackedScene" uid="uid://cghjb27pk2u8t" path="res://debug/fps_counter.tscn" id="2_go7sj"]
+[ext_resource type="Script" uid="uid://cg70nuyh12ltp" path="res://scripts/day_time_manager.gd" id="3_7nomh"]
 [ext_resource type="PackedScene" uid="uid://budim8n3mshod" path="res://scenes/target.tscn" id="4_5xbjy"]
 [ext_resource type="Script" uid="uid://87a4kg1g1fsl" path="res://scenes/oidgui.gd" id="4_fcfvj"]
 [ext_resource type="Script" uid="uid://bgs77nisb8fed" path="res://scenes/player_spawner.gd" id="5_4nkto"]
@@ -13,12 +14,24 @@
 [ext_resource type="PackedScene" uid="uid://bs1elqfroh402" path="res://scenes/cat.tscn" id="8_15mv3"]
 [ext_resource type="PackedScene" uid="uid://c5bl1got01ch5" path="res://scenes/tree.tscn" id="9_e3sih"]
 [ext_resource type="PackedScene" uid="uid://7i878pb05fhb" path="res://scenes/grass_scene.tscn" id="10_2os1m"]
-[ext_resource type="PackedScene" uid="uid://ci8kducp05fdk" path="res://scenes/moon.scn" id="12_go7sj"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7nomh"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1s4pk"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6dial"]
+noise_type = 0
+frequency = 0.0013
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_x2xxo"]
+noise = SubResource("FastNoiseLite_6dial")
+seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2aecg"]
 shader = ExtResource("1_7gny6")
 shader_parameter/use_debanding = true
-shader_parameter/atmosphere_sample_count = 64
+shader_parameter/atmosphere_sample_count_lowres = 64
+shader_parameter/atmosphere_sample_count_fullres = 16
 shader_parameter/elevation = 0.0
 shader_parameter/rayleigh_strength = 1.0
 shader_parameter/mie_strength = 1.0
@@ -29,12 +42,12 @@ shader_parameter/exposure = 10.0
 shader_parameter/sun_disc_feather = 0.5
 shader_parameter/sundisc_intensity = 100.0
 shader_parameter/panorama_texture = ExtResource("2_2aecg")
-shader_parameter/stars_exposure = 5.0
+shader_parameter/stars_exposure = 0.30000001425
 shader_parameter/stars_rotation = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/dim_stars_at_day = true
 shader_parameter/moon_dist = PackedFloat32Array(0, 0, 0)
 shader_parameter/moon_uv_x_offset = PackedFloat32Array(0, 0, 0)
-shader_parameter/moon_textures = Array[Texture2D]([])
+shader_parameter/moon_textures = null
 shader_parameter/hole_in_center = false
 shader_parameter/hole_radius = 5.0
 shader_parameter/hole_feather = 10.0
@@ -60,15 +73,18 @@ shader_parameter/light_marches = 8
 shader_parameter/light_max_dist = 5.0
 shader_parameter/light_strength = 15.0
 shader_parameter/use_cirrus = true
-shader_parameter/cirrus_squish = Vector2(4, 1)
+shader_parameter/cirrus_texture = SubResource("NoiseTexture2D_x2xxo")
+shader_parameter/cirrus_squish = Vector2(10, 1)
 shader_parameter/cirrus_scale = 1.0
-shader_parameter/cirrus_treshold = 0.75
+shader_parameter/cirrus_treshold = 0.0
 shader_parameter/cirrus_feather = 0.25
 shader_parameter/cirrus_offset = Vector2(0, 0)
-shader_parameter/cirrus_distortion_scale = 1.0
+shader_parameter/cirrus_distortion_texture = SubResource("NoiseTexture2D_7nomh")
+shader_parameter/cirrus_distortion_scale = 0.1
 shader_parameter/cirrus_distortion_strength = 0.4
 shader_parameter/cirrus_distortion_offset = Vector2(0, 0)
-shader_parameter/cirrus_mask_scale = 1.0
+shader_parameter/cirrus_mask_texture = SubResource("NoiseTexture2D_1s4pk")
+shader_parameter/cirrus_mask_scale = 0.1
 shader_parameter/cirrus_mask_treshold = 0.6
 shader_parameter/cirrus_mask_feather = 0.4
 shader_parameter/cirrus_opacity = 0.2
@@ -85,8 +101,38 @@ sky_material = SubResource("ShaderMaterial_2aecg")
 [sub_resource type="Environment" id="Environment_5xbjy"]
 background_mode = 2
 sky = SubResource("Sky_rus8k")
+ambient_light_source = 3
+reflected_light_source = 2
 tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+sdfgi_min_cell_size = 7.8125
 glow_enabled = true
+fog_enabled = true
+fog_density = 0.001
+fog_aerial_perspective = 1.0
+
+[sub_resource type="Curve" id="Curve_6dial"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25240847, 1), 0.0, 0.0, 0, 0, Vector2(0.50289017, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_7nomh"]
+_data = [Vector2(0, 0.5017909), 0.0, 0.0, 0, 0, Vector2(0.24470136, 0), 0.0, 0.0, 0, 0, Vector2(0.7514451, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.49247855), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_6dial"]
+offsets = PackedFloat32Array(0, 0.20689656, 0.45638946)
+colors = PackedColorArray(1, 0.37254903, 0, 1, 1, 1, 1, 1, 1, 0.37254903, 0, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6dial"]
+properties/0/path = NodePath("Sun:day_progress")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("Moon:day_progress")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_e3sih"]
 vertices = PackedVector3Array(-41, 0.5, -41.75, -38.75, 0.5, -42, -38.75, 0.5, -49.5, -49.5, 0.5, -39.75, -41, 0.5, -39.75, -49.5, 0.5, -49.5, 39, 0.5, -42, 39, 0.5, -49.5, 41, 0.5, -42, 41.25, 0.5, -40.25, 49.5, 0.5, -40.5, 49.5, 0.5, -49.5, 41.25, 0.5, 40.25, 49.5, 0.5, 40.5, -49.5, 0.5, 40, -41, 0.5, 40, 2.25, 0.5, -1, 3.75, 0.5, -1, 3.5, 0.5, -39.75, 2, 0.5, 0.5, -38.75, 0.5, -39.75, -38.75, 0.5, 0.5, 5.5, 0.5, -1, 5.75, 0.5, -39.75, 7, 0.5, -1, 7.25, 0.5, 0.5, 39, 0.5, 0.5, 39, 0.5, -39.75, 3.5, 0.5, 40, 3.75, 0.5, 2.25, 2, 0.5, 2, -38.75, 0.5, 40, 7.25, 0.5, 1.75, 6.75, 0.5, 2.25, 5.5, 0.5, 40, 39, 0.5, 40, 5.25, 0.5, 2.25, -39.5, 0.5, 49.5, -39.25, 0.5, 42.25, -41, 0.5, 42, -49.5, 0.5, 49.5, 40.75, 0.5, 42.25, 39.25, 0.5, 42.25, 39.5, 0.5, 49.5, 41.25, 0.5, 41.75, 49.5, 0.5, 49.5)
@@ -112,9 +158,32 @@ data = PackedVector3Array(40.5, 8, 41.5, 39.5, 8, 40.5, 40.5, 8, 40.5, -39.5, 8,
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1913572826]
 environment = SubResource("Environment_5xbjy")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1497089292]
-transform = Transform3D(-0.6269845, 0.43199202, 0.648285, -0.63275677, -0.76782507, -0.100317605, 0.4544331, -0.4731043, 0.7547602, 0, 0, 0)
+[node name="DayTimeManager" type="Node3D" parent="." unique_id=585910875]
+script = ExtResource("3_7nomh")
+day_speed = 0.005
+sun_intensity_curve = SubResource("Curve_6dial")
+moon_intensity_curve = SubResource("Curve_7nomh")
+sun_gradient = SubResource("Gradient_6dial")
+do_daylight_cycle = false
+
+[node name="Sun" type="DirectionalLight3D" parent="DayTimeManager" unique_id=1497089292]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
+light_energy = 0.0
+light_angular_distance = 0.53
 shadow_enabled = true
+
+[node name="Moon" type="DirectionalLight3D" parent="DayTimeManager" unique_id=535665735]
+visible = false
+light_color = Color(0.87109375, 0.9785156, 1, 1)
+light_energy = 0.06272386
+light_indirect_energy = 16.0
+shadow_enabled = true
+shadow_blur = 10.0
+sky_mode = 1
+
+[node name="DaytimeSynchronizer" type="MultiplayerSynchronizer" parent="DayTimeManager" unique_id=451806208]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_6dial")
 
 [node name="Target" parent="." unique_id=1817511440 instance=ExtResource("4_5xbjy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
@@ -353,8 +422,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.448275, 0, 34.04629)
 
 [node name="tree16" parent="DemoForest" unique_id=982572444 instance=ExtResource("9_e3sih")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.38595, 0, 34.04629)
-
-[node name="Moon_NASA_LRO_8k_Topo" parent="." unique_id=479589413 instance=ExtResource("12_go7sj")]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 2.774578, 12.285309, 75.07236)
-
-[editable path="Moon_NASA_LRO_8k_Topo"]
