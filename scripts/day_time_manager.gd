@@ -1,8 +1,9 @@
 @tool
+class_name DaytimeManager
 extends Node3D
 
 @export_range(0,1,0.01) var day_progress = 0.0;
-@export var day_speed = 1.0;
+@export var day_speed = 0.005;
 @export var sun_intensity_curve : Curve
 @export var moon_intensity_curve : Curve
 

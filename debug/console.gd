@@ -75,3 +75,11 @@ func noclip(arguments = null):
 			if(player.has_method("noclip")):
 				player.noclip()
 				Console.print("Noclip Toggled on Player: %s" % player.name)
+
+func setDayTime(arguments = null):
+	if(arguments == null or typeof(arguments) != TYPE_FLOAT or arguments < 0.0 or arguments > 1.0):
+		Console.printerr("ERROR: Provide a time from 0.0 - 1.0")
+		return FAILED
+	var daytimemanager : DaytimeManager = get_tree().get_first_node_in_group("daytimemanager")
+	daytimemanager.day_progress = arguments
+	

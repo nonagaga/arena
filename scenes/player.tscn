@@ -776,3 +776,7 @@ script = ExtResource("4_dqkch")
 
 [node name="CameraInput" type="Node" parent="." unique_id=2077148260]
 script = ExtResource("6_tuyoq")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1958560787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+light_color = Color(1, 0.72875977, 0.2109375, 1)
